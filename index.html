@@ -1,0 +1,238 @@
+<!doctype html>
+<html lang="hu">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>PixelDungeon — Minecraft szerver</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --accent:#8be28b;
+      --muted:#bdbdbd;
+      --bg-dark:#0b0b0f;
+      --panel:#141417;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family: Roboto, system-ui, -apple-system, "Segoe UI", Arial;
+      color:#eee;
+      background-color:var(--bg-dark);
+      background-image: radial-gradient(ellipse at center, rgba(255,255,255,0.02) 0%, rgba(0,0,0,0.6) 40%), linear-gradient(180deg,#020203 0%, #0d0d10 100%);
+      background-size: cover;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:30px;
+    }
+
+    .card{
+      width:100%;
+      max-width:980px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border:1px solid rgba(255,255,255,0.04);
+      border-radius:14px;
+      padding:28px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+      position:relative;
+      overflow:hidden;
+    }
+
+    .card::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      background-image: linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px), linear-gradient(0deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+      background-size: 40px 40px, 40px 40px;
+      mix-blend-mode: overlay;
+      pointer-events:none;
+    }
+
+    header{
+      display:flex;
+      gap:18px;
+      align-items:center;
+    }
+
+    .logo{
+      width:96px;height:96px;border-radius:10px;background:linear-gradient(135deg,#222 0%, #111 100%);display:flex;align-items:center;justify-content:center;border:2px solid rgba(255,255,255,0.03);font-family:'Press Start 2P',monospace;font-size:14px;color:var(--accent)
+    }
+
+    h1{margin:0;font-family:'Press Start 2P',monospace;font-size:28px;color:var(--accent);letter-spacing:1px}
+    p.lead{margin:6px 0 0;color:var(--muted)}
+
+    .controls{margin-top:18px;display:flex;flex-wrap:wrap;gap:12px}
+    .btn{
+      background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border:1px solid rgba(255,255,255,0.04);
+      padding:10px 14px;border-radius:8px;cursor:pointer;text-decoration:none;color:inherit;display:inline-flex;gap:8px;align-items:center;transition: all 0.3s ease;
+    }
+    .btn:hover{
+      transform: scale(1.05);
+      box-shadow: 0 0 10px var(--accent);
+    }
+
+    .ip-panel{margin-top:18px;display:flex;gap:12px;align-items:center}
+    .ip-box{background:var(--panel);padding:12px 16px;border-radius:8px;font-weight:700;letter-spacing:0.5px}
+    .small{font-size:12px;color:var(--muted)}
+
+    .stats{margin-top:20px;display:flex;gap:12px;align-items:center}
+    .stat{background:rgba(0,0,0,0.25);padding:12px;border-radius:10px;min-width:120px;text-align:center}
+    .stat .num{font-size:22px;font-weight:700;color:var(--accent)}
+    .stat .label{font-size:12px;color:var(--muted)}
+
+    .discord-section{
+      margin-top:30px;
+      background:rgba(0,0,0,0.2);
+      border-radius:10px;
+      padding:15px;
+      text-align:center;
+    }
+    .discord-section h2{
+      font-family:'Press Start 2P',monospace;
+      font-size:18px;
+      margin-bottom:10px;
+      color:var(--accent);
+    }
+    .discord-btn{
+      display:inline-block;
+      margin-top:10px;
+      padding:10px 20px;
+      background-color:#5865F2;
+      color:#fff;
+      border-radius:8px;
+      font-weight:bold;
+      text-decoration:none;
+      transition:transform 0.2s ease, box-shadow 0.2s ease;
+      animation: pulse 2s infinite;
+    }
+    .discord-btn:hover{
+      transform:scale(1.05);
+      box-shadow:0 0 15px #5865F2;
+    }
+    @keyframes pulse{
+      0%{box-shadow:0 0 0 #5865F2;}
+      50%{box-shadow:0 0 15px #5865F2;}
+      100%{box-shadow:0 0 0 #5865F2;}
+    }
+
+    footer{margin-top:22px;border-top:1px dashed rgba(255,255,255,0.03);padding-top:14px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap}
+
+    .links{display:flex;gap:8px}
+
+    @media (max-width:600px){
+      .card{padding:18px}
+      h1{font-size:20px}
+      .logo{width:72px;height:72px;font-size:11px}
+      .stat{min-width:90px}
+    }
+  </style>
+</head>
+<body>
+  <div class="card" role="main">
+    <header>
+      <div class="logo">PD</div>
+      <div>
+        <h1>PixelDungeon</h1>
+        <p class="lead">Sötét kalandok, dungeon raidok — csatlakozz most!</p>
+
+        <div class="ip-panel">
+          <div>
+            <div class="small">Szerver IP</div>
+            <div class="ip-box" id="server-ip">play.pixeldungeon.eu</div>
+          </div>
+          <div style="display:flex;gap:8px;align-items:center">
+            <button class="btn" id="copy-ip">Másolás</button>
+            <a class="btn" href="minecraft://play.pixeldungeon.eu" id="open-client">Megnyitás a Minecraftban</a>
+          </div>
+        </div>
+
+      </div>
+    </header>
+
+    <div class="controls">
+      <a class="btn" id="discord-link" href="https://discord.gg/farxCkPJ" target="_blank" rel="noopener">Discord</a>
+      <a class="btn" id="shop-link" href="https://bolt.pixeldungeon.eu/" target="_blank" rel="noopener">Bolt</a>
+      <button class="btn" id="refresh-count">Frissít</button>
+    </div>
+
+    <div class="stats" aria-live="polite">
+      <div class="stat">
+        <div class="num" id="player-count">—</div>
+        <div class="label">Játékosok online</div>
+      </div>
+      <div class="stat">
+        <div class="num" id="server-status">—</div>
+        <div class="label">Szerver státusz</div>
+      </div>
+      <div class="stat">
+        <div class="num" id="version">—</div>
+        <div class="label">Szerver verzió</div>
+      </div>
+    </div>
+
+    <div class="discord-section">
+      <h2>Csatlakozz a Discordunkhoz</h2>
+      <iframe src="https://discord.com/widget?id=916717160896823387&theme=dark" width="100%" height="400" allowtransparency="true" frameborder="0" sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"></iframe>
+      <br>
+      <a href="https://discord.gg/farxCkPJ" class="discord-btn" target="_blank">Csatlakozz most</a>
+    </div>
+
+    <footer>
+      <div class="small">© PixelDungeon — Minden jog fenntartva</div>
+      <div class="links small">Tipp: GitHub Pagesre feltöltve az `index.html` fájl automatikusan él.</div>
+    </footer>
+  </div>
+
+  <script>
+    const SERVER = 'play.pixeldungeon.eu';
+    const API = `https://api.mcsrvstat.us/2/${SERVER}`;
+
+    async function fetchServerInfo(){
+      try{
+        const res = await fetch(API, {cache: 'no-store'});
+        if(!res.ok) throw new Error('Hálózati hiba');
+        const data = await res.json();
+
+        const players = data.players && data.players.online ? data.players.online : 0;
+        document.getElementById('player-count').textContent = players;
+
+        const online = data.online ? 'Online' : 'Offline';
+        document.getElementById('server-status').textContent = online;
+
+        const ver = data.version ? data.version : '—';
+        document.getElementById('version').textContent = ver;
+      }catch(err){
+        console.warn('API hiba', err);
+        document.getElementById('player-count').textContent = '—';
+        document.getElementById('server-status').textContent = 'Ismeretlen';
+        document.getElementById('version').textContent = '—';
+      }
+    }
+
+    document.getElementById('copy-ip').addEventListener('click', async ()=>{
+      try{
+        await navigator.clipboard.writeText(SERVER);
+        const el = document.getElementById('copy-ip');
+        const prev = el.textContent;
+        el.textContent = 'Másolva!';
+        setTimeout(()=> el.textContent = prev, 1400);
+      }catch(e){
+        alert('A másolás nem sikerült. Jelöld ki és másold kézzel: ' + SERVER);
+      }
+    });
+
+    document.getElementById('refresh-count').addEventListener('click', fetchServerInfo);
+
+    window.addEventListener('DOMContentLoaded', ()=>{
+      document.getElementById('server-ip').textContent = SERVER;
+      fetchServerInfo();
+    });
+  </script>
+</body>
+</html>
